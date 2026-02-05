@@ -1,21 +1,26 @@
 interface AvatarProps {
   src?: string;
   name: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   className?: string;
 }
 
 const sizeClasses = {
-  sm: 'w-6 h-6 text-xs',
-  md: 'w-10 h-10 text-sm',
-  lg: 'w-12 h-12 text-base',
+  sm: "w-6 h-6 text-xs",
+  md: "w-10 h-10 text-sm",
+  lg: "w-12 h-12 text-base",
 };
 
-export default function Avatar({ src, name, size = 'md', className = '' }: AvatarProps) {
+export default function Avatar({
+  src,
+  name,
+  size = "md",
+  className = "",
+}: AvatarProps) {
   const initials = name
-    .split(' ')
+    .split(" ")
     .map((n) => n[0])
-    .join('')
+    .join("")
     .toUpperCase()
     .slice(0, 2);
 

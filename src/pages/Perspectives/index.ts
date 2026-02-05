@@ -1,1 +1,1 @@
-export { default as PerspectiveDetailsPage } from './PerspectiveDetailsPage';
+export { default as PerspectiveDetailsPage } from "./PerspectiveDetailsPage";

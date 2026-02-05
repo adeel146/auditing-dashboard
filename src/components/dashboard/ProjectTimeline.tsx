@@ -1,48 +1,72 @@
-import { projectTimeline } from '../../data/mockData';
-import { ProgressBar } from '../ui';
+import { ChevronDown } from "lucide-react";
+import { projectTimeline } from "../../data/mockData";
 
 export default function ProjectTimeline() {
   // Calculate progress based on completed items
   const completedCount = projectTimeline.filter(
-    (item) => item.status === 'completed'
+    (item) => item.status === "completed",
   ).length;
   const progressPercentage = (completedCount / projectTimeline.length) * 100;
 
   return (
-    <div className="bg-white border border-border rounded-xl p-4">
-      <h3 className="text-base font-bold text-primary mb-4">Project Timeline</h3>
-
-      {/* Progress Bar */}
-      <div className="relative mb-8">
-        <ProgressBar value={progressPercentage} />
-        
-        {/* Milestone Dots */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-4">
-          {projectTimeline.map((milestone, index) => {
-            const position = (index / (projectTimeline.length - 1)) * 100;
-            let dotColor = 'bg-border';
-            if (milestone.status === 'completed') dotColor = 'bg-success';
-            else if (milestone.status === 'in-progress') dotColor = 'bg-warning';
-
-            return (
-              <div
-                key={milestone.id}
-                className={`w-2.5 h-2.5 rounded-full ${dotColor} border-2 border-white shadow-sm`}
-                style={{ position: 'absolute', left: `${position}%`, transform: 'translateX(-50%)' }}
-              />
-            );
-          })}
-        </div>
+    <div className="bg-white border border-border rounded-xl p-4 sm:p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-base font-bold text-primary">Project Timeline</h3>
+        <button className="flex items-center gap-2 px-3 py-1.5 bg-white border border-border rounded-lg text-sm font-medium text-primary hover:bg-gray-50 transition-colors">
+          2026
+          <ChevronDown className="w-4 h-4" />
+        </button>
       </div>
 
-      {/* Timeline Labels */}
-      <div className="flex justify-between">
-        {projectTimeline.map((milestone) => (
-          <div key={milestone.id} className="text-center flex-1">
-            <div className="text-sm font-medium text-primary">{milestone.name}</div>
-            <div className="text-xs text-secondary mt-1">{milestone.date}</div>
+      {/* Timeline with Progress Bar - Scrollable on mobile */}
+      <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="min-w-[600px] sm:min-w-0">
+          {/* Progress Bar Track */}
+          <div className="relative h-3 sm:h-3.5 bg-[#F5F8FB] rounded-full overflow-visible">
+            {/* Progress Fill */}
+            <div
+              className="absolute top-0 left-0 bg-success rounded-full transition-all duration-500 h-3 sm:h-3.5"
+              style={{ width: `${progressPercentage}%` }}
+            />
+
+            {/* Milestone Dots */}
+            {projectTimeline.map((milestone, index) => {
+              // Center of each flex-1 item: (index + 0.5) / total * 100
+              const position = ((index + 0.5) / projectTimeline.length) * 100;
+              // White dot in green area, red dot in white area
+              const isInProgressArea = position <= progressPercentage;
+              const dotColor = isInProgressArea ? "bg-white" : "bg-error";
+
+              return (
+                <div
+                  key={milestone.id}
+                  className={`absolute top-1/2 w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full ${dotColor} shadow-sm z-10`}
+                  style={{
+                    left: `${position}%`,
+                    transform: "translateX(-50%) translateY(-50%)",
+                  }}
+                />
+              );
+            })}
           </div>
-        ))}
+
+          {/* Timeline Labels */}
+          <div className="flex justify-between mt-3 sm:mt-4">
+            {projectTimeline.map((milestone) => (
+              <div
+                key={milestone.id}
+                className="text-center flex-1 px-0.5 sm:px-1"
+              >
+                <div className="text-[10px] sm:text-xs text-secondary mb-0.5 sm:mb-1">
+                  {milestone.date}
+                </div>
+                <div className="text-[10px] sm:text-xs font-medium text-primary leading-tight">
+                  {milestone.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

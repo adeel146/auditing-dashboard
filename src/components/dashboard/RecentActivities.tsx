@@ -1,24 +1,29 @@
-import { recentActivities } from '../../data/mockData';
+import { recentActivities } from "../../data/mockData";
+
+const activityColors = ["bg-error", "bg-warning", "bg-info", "bg-success"];
 
 export default function RecentActivities() {
   return (
-    <div className="bg-white border border-border rounded-xl p-4">
-      <h3 className="text-base font-bold text-primary mb-4">Recent Activities</h3>
+    <div className="bg-white border border-border rounded-xl p-4 sm:p-6">
+      <h3 className="text-base font-bold text-primary mb-6">
+        Recent Activities
+      </h3>
       <div className="space-y-4">
         {recentActivities.map((activity, index) => (
           <div key={activity.id}>
             <div className="flex items-start gap-3">
-              <div className="w-1.5 h-1.5 rounded-full bg-info mt-2 shrink-0" />
+              <div
+                className={`w-2 h-2 rounded-full ${activityColors[index % activityColors.length]} mt-1.5 shrink-0`}
+              />
               <div className="flex-1 min-w-0">
-                <p className="text-base font-medium text-primary leading-relaxed">
+                <p className="text-sm text-primary leading-relaxed">
                   {activity.message}
                 </p>
               </div>
-              <span className="text-xs text-secondary whitespace-nowrap">{activity.time}</span>
+              <span className="text-[10px] text-secondary whitespace-nowrap">
+                {activity.time}
+              </span>
             </div>
-            {index < recentActivities.length - 1 && (
-              <div className="h-px bg-border mt-4" />
-            )}
           </div>
         ))}
       </div>

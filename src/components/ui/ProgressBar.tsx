@@ -4,7 +4,11 @@ interface ProgressBarProps {
   showLabel?: boolean;
 }
 
-export default function ProgressBar({ value, className = '', showLabel = false }: ProgressBarProps) {
+export default function ProgressBar({
+  value,
+  className = "",
+  showLabel = false,
+}: ProgressBarProps) {
   return (
     <div className={`w-full ${className}`}>
       <div className="h-3.5 bg-[#f5f8fb] rounded-xl overflow-hidden">
@@ -14,7 +18,9 @@ export default function ProgressBar({ value, className = '', showLabel = false }
         />
       </div>
       {showLabel && (
-        <div className="text-right text-xs text-secondary mt-1">{value.toFixed(1)}%</div>
+        <div className="text-right text-xs text-secondary mt-1">
+          {value.toFixed(1)}%
+        </div>
       )}
     </div>
   );
