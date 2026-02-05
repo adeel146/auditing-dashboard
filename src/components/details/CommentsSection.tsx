@@ -15,20 +15,17 @@ interface CommentsSectionProps {
 export default function CommentsSection({ comments }: CommentsSectionProps) {
   return (
     <div className="bg-white border border-border rounded-xl p-4 sm:p-6">
-      <h3 className="text-base font-bold text-primary mb-6">Comments</h3>
+      <h3 className="text-sm font-bold text-primary mb-4">Comments</h3>
 
       <div className="space-y-4">
         {comments.map((comment) => (
-          <div
-            key={comment.id}
-            className="bg-white border border-border rounded-xl p-4"
-          >
+          <div key={comment.id} className="border border-border rounded-xl p-4">
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-medium">
+              <div className="w-8 h-8 rounded-full bg-[#F8FAFC] border border-border flex items-center justify-center text-primary text-sm font-medium shrink-0">
                 {comment.initials}
               </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-2">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-semibold text-primary">
                     {comment.author}
                   </span>
@@ -42,9 +39,9 @@ export default function CommentsSection({ comments }: CommentsSectionProps) {
       </div>
 
       {/* New Comment Input */}
-      <div className="mt-4 bg-white border border-border rounded-xl p-4">
+      <div className="mt-4 border border-border rounded-xl p-4">
         <textarea
-          placeholder="Add a comment..."
+          placeholder=""
           className="w-full resize-none outline-none text-sm text-primary placeholder-secondary bg-transparent"
           rows={3}
         />

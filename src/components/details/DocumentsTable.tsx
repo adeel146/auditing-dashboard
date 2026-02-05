@@ -1,5 +1,4 @@
 import { ArrowUpDown } from "lucide-react";
-import { StatusBadge } from "../ui";
 
 interface Document {
   id: number;
@@ -17,63 +16,84 @@ interface DocumentsTableProps {
 }
 
 const columns = [
-  { id: "number", label: "Document Number", width: "w-[120px]" },
-  { id: "name", label: "Document Name", width: "flex-1" },
-  { id: "lead", label: "Document Lead", width: "w-[140px]" },
-  { id: "preparer", label: "Document Preparer", width: "w-[140px]" },
-  { id: "date", label: "Date", width: "w-[100px]" },
-  { id: "dueDate", label: "Due Date", width: "w-[100px]" },
-  { id: "status", label: "Status", width: "w-[120px]" },
+  { id: "number", label: "Document Number" },
+  { id: "name", label: "Document Name" },
+  { id: "lead", label: "Document Lead" },
+  { id: "preparer", label: "Document Preparer" },
+  { id: "date", label: "Date" },
+  { id: "dueDate", label: "Due Date" },
+  { id: "status", label: "Status" },
 ];
+
+const getStatusStyle = (status: string) => {
+  switch (status) {
+    case "approved":
+      return "text-success bg-[#E8F5E9]";
+    case "pending":
+      return "text-warning bg-[#FFF8E1]";
+    case "rejected":
+      return "text-error bg-[#FFEBEE]";
+    default:
+      return "text-secondary bg-gray-100";
+  }
+};
+
+const getStatusLabel = (status: string) => {
+  switch (status) {
+    case "approved":
+      return "Approved";
+    case "pending":
+      return "Pending Review";
+    case "rejected":
+      return "Rejected";
+    default:
+      return status;
+  }
+};
 
 export default function DocumentsTable({ documents }: DocumentsTableProps) {
   return (
-    <div className="bg-white border border-border rounded-xl overflow-hidden">
-      {/* Header */}
-      <div className="bg-white border-b border-border px-4 py-3">
-        <div className="flex items-center gap-4">
-          {columns.map((col) => (
-            <div
-              key={col.id}
-              className={`flex items-center gap-1 ${col.width}`}
-            >
-              <span className="text-xs font-medium text-primary">
-                {col.label}
-              </span>
-              <ArrowUpDown className="w-3 h-3 text-secondary" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Rows */}
-      <div className="divide-y divide-border">
-        {documents.map((doc) => (
-          <div
-            key={doc.id}
-            className="px-4 py-3 hover:bg-gray-50 transition-colors"
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-primary w-[120px]">
-                {doc.number}
-              </span>
-              <span className="text-sm text-info flex-1 truncate">
-                {doc.name}
-              </span>
-              <span className="text-sm text-info w-[140px]">{doc.lead}</span>
-              <span className="text-sm text-info w-[140px]">
-                {doc.preparer}
-              </span>
-              <span className="text-sm text-primary w-[100px]">{doc.date}</span>
-              <span className="text-sm text-primary w-[100px]">
-                {doc.dueDate}
-              </span>
-              <div className="w-[120px]">
-                <StatusBadge status={doc.status} />
-              </div>
-            </div>
-          </div>
-        ))}
+    <div className="bg-white border border-border rounded-xl overflow-hidden p-3">
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="bg-[#F8FAFC]">
+              {columns.map((col, index) => (
+                <th
+                  key={col.id}
+                  className={`text-left p-4 ${index === 0 ? "rounded-l-lg" : ""} ${index === columns.length - 1 ? "rounded-r-lg" : ""}`}
+                >
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-medium text-primary">
+                      {col.label}
+                    </span>
+                    <ArrowUpDown className="w-3 h-3 text-secondary" />
+                  </div>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-border">
+            {documents.map((doc) => (
+              <tr key={doc.id} className="hover:bg-gray-50 transition-colors">
+                <td className="p-4 text-sm text-primary">{doc.number}</td>
+                <td className="p-4 text-sm text-primary">{doc.name}</td>
+                <td className="p-4 text-sm text-primary">{doc.lead}</td>
+                <td className="p-4 text-sm text-primary">{doc.preparer}</td>
+                <td className="p-4 text-sm text-primary">{doc.date}</td>
+                <td className="p-4 text-sm text-primary">{doc.dueDate}</td>
+                <td className="p-4">
+                  <span
+                    className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusStyle(doc.status)}`}
+                  >
+                    {getStatusLabel(doc.status)}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
